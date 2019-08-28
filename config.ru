@@ -1,9 +1,5 @@
 # frozen_string_literal: true
 
-require 'rack'
-require 'rack/builder'
-require 'rack/server'
-
 # Class that defines the Rack app
 class HelloWorldApp
   def self.call(_env)
@@ -51,10 +47,6 @@ class Timer
   end
 end
 
-app = Rack::Builder.new do
-  use Timer
-  use EnsureJsonResponse
-  run HelloWorldApp
-end
-
-Rack::Server.start app: app
+use Timer
+use EnsureJsonResponse
+run HelloWorldApp
