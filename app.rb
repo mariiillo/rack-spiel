@@ -1,4 +1,8 @@
 require 'rack'
+require 'rack/builder'
+require 'rack/etag'
+require 'rack/conditional_get'
+require 'rack/deflater'
 require 'rack/server'
 
 class HelloWorldApp
@@ -14,4 +18,11 @@ class HelloWorldApp
   end
 end
 
-Rack::Server.start app: HelloWorldApp
+app = Rack::Builder.new do
+  use Rack::ETag
+  use Rack::ConditionalGet
+  use Rack::Deflater
+  run HelloWorldApp
+end
+
+Rack::Server.start app: app
